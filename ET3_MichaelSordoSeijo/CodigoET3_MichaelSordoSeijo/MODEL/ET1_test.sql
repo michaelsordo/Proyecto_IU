@@ -1,0 +1,147 @@
+-- phpMyAdmin SQL Dump
+-- version 5.0.2
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: localhost
+-- Tiempo de generación: 05-01-2021 a las 14:58:41
+-- Versión del servidor: 10.3.23-MariaDB-0+deb10u1
+-- Versión de PHP: 7.3.19-1~deb10u1
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de datos: `ET1_TEST`
+--
+CREATE DATABASE IF NOT EXISTS `ET1_TEST` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
+USE `ET1_TEST`;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `CALENDARIO`
+--
+
+DROP TABLE IF EXISTS `CALENDARIO`;
+CREATE TABLE IF NOT EXISTS `CALENDARIO` (
+  `ID_CALENDARIO` int(2) NOT NULL,
+  `NOMBRE_CALENDARIO` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
+  `DESCRIPCION_CALENDARIO` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `FECHA_INICIO_CALENDARIO` date NOT NULL,
+  `FECHA_FIN_CALENDARIO` date NOT NULL,
+  `HORA_INICIO_CALENDARIO` time NOT NULL COMMENT 'HORA DE COMIENZO DE CUALQUIER DIA DEL CALENDARIO',
+  `HORA_FIN_CALENDARIO` time NOT NULL COMMENT 'HORA DE FIN DE CUALQUIER DIA DEL CALENDARIO',
+  PRIMARY KEY (`ID_CALENDARIO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `HORARIO`
+--
+
+DROP TABLE IF EXISTS `HORARIO`;
+CREATE TABLE IF NOT EXISTS `HORARIO` (
+  `ID_CALENDARIO` int(2) NOT NULL,
+  `ID_HORARIO` int(5) NOT NULL,
+  `ID_RECURSO` int(3) NOT NULL,
+  `FECHA_HORARIO` date NOT NULL,
+  `HORA_INICIO_HORARIO` time NOT NULL,
+  `HORA_FIN_HORARIO` time NOT NULL,
+  `MOTIVO_HORARIO` varchar(100) COLLATE utf8_spanish_ci NOT NULL COMMENT 'MOTIVO DEL USO DE RECURSO',
+  `FECHA_SOLICITUD_RECURSO` date NOT NULL COMMENT 'FECHA EN QUE SE SOLICITA EL RECURSO',
+  `LOGIN_USUARIO` varchar(15) COLLATE utf8_spanish_ci NOT NULL COMMENT 'PERSONA QUE HACE LA PETICION DE USO DEL RECURSO',
+  `ES_RESERVA` enum('SI','NO') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'SI' COMMENT 'SI : ES UNA RESERVA. NO : YA ESTA CONFIRMADA',
+  `ES_RECHAZADA` enum('SI','NO') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'NO' COMMENT 'NO: NO ES RECHAZADA. SI: ES RECHAZADA',
+  `FECHA_RESPUESTA_RECURSO` date DEFAULT NULL COMMENT 'FECHA EN QUE SE AUTORIZA/RECHAZA LA RESERVA POR EL RESPONSABLE',
+  `MOTIVO_RECHAZO_SOLICITUD` varchar(100) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `FUE_USADO` enum('SI','NO') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'NO' COMMENT 'SI : EL RECURSO FUE USADO. NO : EL RECURSO NO FUE USADO',
+  `COSTE_SOLICITUD` double(6,2) NOT NULL,
+  PRIMARY KEY (`ID_HORARIO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `RECURSO`
+--
+
+DROP TABLE IF EXISTS `RECURSO`;
+CREATE TABLE IF NOT EXISTS `RECURSO` (
+  `ID_RECURSO` int(3) NOT NULL,
+  `NOMBRE_RECURSO` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
+  `DESCRIPCION_RECURSO` varchar(100) COLLATE utf8_spanish_ci NOT NULL,
+  `LOGIN_RESPONSABLE` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
+  `TARIFA_RECURSO` int(3) NOT NULL COMMENT 'VALOR MONETARIO DE TARIFICACIÓN POR RANGO ',
+  `RANGO_TARIFA_RECURSO` enum('HORA','DIA','SEMANA','MES') COLLATE utf8_spanish_ci NOT NULL COMMENT 'RANGO DE APLICACIÓN DE LA TARIFA',
+  `BORRADO_LOGICO` enum('SI','NO') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'NO' COMMENT 'BORRADO LOGICO DE LA TUPLA EN EL CASO DE QUE EXISTA INFORMACIÓN EN LA BD DE ESTE RECURSO',
+  PRIMARY KEY (`ID_RECURSO`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `RECURSO`
+--
+
+INSERT INTO `RECURSO` (`ID_RECURSO`, `NOMBRE_RECURSO`, `DESCRIPCION_RECURSO`, `LOGIN_RESPONSABLE`, `TARIFA_RECURSO`, `RANGO_TARIFA_RECURSO`, `BORRADO_LOGICO`) VALUES
+(1, 'recurso1', 'La descripción de recurso 1', 'resp1', 20, 'DIA', 'NO'),
+(2, 'recurso2', 'La descripción del recurso 2', 'resp2', 1, 'HORA', 'NO');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `RESPONSABLE_RECURSO`
+--
+
+DROP TABLE IF EXISTS `RESPONSABLE_RECURSO`;
+CREATE TABLE IF NOT EXISTS `RESPONSABLE_RECURSO` (
+  `LOGIN_RESPONSABLE` varchar(15) COLLATE utf8_spanish_ci NOT NULL COMMENT 'LOGIN EN TABLA USUARIO DEL RESPONSABLE',
+  `DIRECCION_RESPONSABLE` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  `TELEFONO_RESPONSABLE` varchar(9) COLLATE utf8_spanish_ci NOT NULL,
+  PRIMARY KEY (`LOGIN_RESPONSABLE`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `RESPONSABLE_RECURSO`
+--
+
+INSERT INTO `RESPONSABLE_RECURSO` (`LOGIN_RESPONSABLE`, `DIRECCION_RESPONSABLE`, `TELEFONO_RESPONSABLE`) VALUES
+('resp1', 'la casa de resp1', '988999999'),
+('resp2', 'la casa de resp2', '988888888');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `USUARIO`
+--
+
+DROP TABLE IF EXISTS `USUARIO`;
+CREATE TABLE IF NOT EXISTS `USUARIO` (
+  `LOGIN_USUARIO` varchar(15) COLLATE utf8_spanish_ci NOT NULL,
+  `PASS_USUARIO` varchar(128) COLLATE utf8_spanish_ci NOT NULL,
+  `NOMBRE_USUARIO` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
+  `EMAIL_USUARIO` varchar(40) COLLATE utf8_spanish_ci NOT NULL,
+  `ES_ADMIN` enum('SI','NO') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'NO',
+  `ES_ACTIVO` enum('SI','NO') COLLATE utf8_spanish_ci NOT NULL DEFAULT 'SI' COMMENT 'ATRIBUTO PARA INDICAR SI EL USUARIO PUEDE LOGUEARSE O NO (BANEADO)'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `USUARIO`
+--
+
+INSERT INTO `USUARIO` (`LOGIN_USUARIO`, `PASS_USUARIO`, `NOMBRE_USUARIO`, `EMAIL_USUARIO`, `ES_ADMIN`, `ES_ACTIVO`) VALUES
+('jrodeiro', '92eb5ffee6ae2fec3ad71c777531578f', 'javier Rodeiro Iglesias', 'jrodeiro@uvigo.es', 'NO', 'SI'),
+('admin', '21232f297a57a5a743894a0e4a801fc3', 'admin admin', 'admin@admin.es', 'SI', 'SI'),
+('resp1', 'a1866c1e61653fd2a77033750c72c90c', 'responsable uno', 'resp1@resp1.es', 'NO', 'SI'),
+('resp2', 'bb1797702574859ad9bab93694ed779d', 'responsable dos', 'resp2@resp2.es', 'NO', 'SI');
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

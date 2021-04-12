@@ -1,0 +1,48 @@
+#modal {
+	width:100%; /*Toma el 100% del ancho de la página*/
+	height:100%; /*Toma el 100% del alto de la página*/
+	position:fixed; /*Con este código hacemos que el contenedor se mantenga en la pantalla y para que tome las dimensiones del body y no de la entrada*/
+	background-color: rgba(1, 1, 1, 0.5); /*Color de fondo, incluye opacidad del 90%*/
+	top:0; /*Position superior*/
+	left:0; /*Posición lateral*/
+	z-index:10; /*Evitamos que algún elemento del blog sobreponga la ventana modal*/
+}
+
+#contenido-interno { 
+	background: #d7e6ec;
+	position: absolute;
+	z-index: 20;
+	border-radius:5px;
+	width: 500px;
+	height: 90px;
+	margin-top: 250px;
+	margin-left: 420px;
+}
+
+#aviso{
+	position:absolute;
+	margin-top: 5px;
+	margin-left: 20px;
+}
+
+#aviso img{
+	width: 80px;
+}
+
+#mensajeError{
+	font-size: 15px;
+	font-weight: bold;
+	position: absolute;
+	margin-left: 178px;
+	margin-top: 30px;
+	color: #d50000;
+	font-family: "Open Sans";
+}
+
+#cerrar {
+	position:absolute;
+    top:0px;
+    right:0px;
+    padding:2px;
+}
+

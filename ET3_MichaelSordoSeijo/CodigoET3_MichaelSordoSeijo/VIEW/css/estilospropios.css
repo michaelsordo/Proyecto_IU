@@ -1,0 +1,97 @@
+
+/*Estilos para la barra lateral*/
+
+* {
+    margin: 0px;
+    padding: 0px;
+  }
+  
+  #sidebar {
+    position: fixed;
+    width: 200px;
+    height:100%;
+    background:black;
+    left: -100px;
+    left: 0px;
+    margin:0;
+  
+  
+    
+    /*transition: all 500ms linear;*/
+  }
+  
+  #sidebar ul li {
+    color: rgba(230, 230, 230, .9);
+    list-style: none;
+    padding: 15px 10px;
+    border-bottom: 1px solid rgba(100, 100, 100, .3);
+    text-align: center;
+  }
+
+  .menu{
+      text-align:center;
+      color:black;
+      
+  }
+  
+
+/*Aquí terminan los estilos para la barra lateral*/
+
+/*Estilos para el idioma*/
+
+.idioma{
+    position:right;
+    margin:auto;
+    width: auto;
+    float: right;
+    margin-right: 8px;
+    margin-top: 8px;
+    padding: 6px 10px 8px 10px;
+   
+}
+
+.flag{
+    border-radius: 100%;
+    border:solid 2px;
+}
+
+h2{
+    text-align:center;
+}
+
+h3 .color-white{
+    color:white;
+}
+
+/*Estilos para el footer*/
+
+footer{
+    background-color: #f7aa00;
+    width: 100%;
+    margin: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    
+}
+
+
+footer p, footer a{
+    display: inline-block;
+    /*font-weight: bold;*/
+    color: #235784;
+}
+
+/*
+.gestion_user{
+    
+        position: center;
+        left: 50%;
+        margin-left: -300px;
+        top: 50%;
+        margin-top: -150px;
+     
+}
+*/
